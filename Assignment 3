@@ -1,0 +1,408 @@
+
+mysql> CREATE TABLE cust(
+    -> cust_id varchar(2) PRIMARY KEY,
+    ->     lname varchar(15),
+    ->     fname varchar(15),
+    ->     area varchar(2),
+    ->     phone_no number(8)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number(8)
+)' at line 6
+mysql> CREATE TABLE Cust (
+    ->     cust_id varchar(2) PRIMARY KEY,
+    ->     lname varchar(15),
+    ->     fname varchar(15),
+    ->     area varchar(2),
+    ->     phone_no number(8)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number(8)
+)' at line 6
+mysql> CREATE TABLE Cust (
+    ->     cust_id varchar(2) PRIMARY KEY,
+    ->     lname varchar(15),
+    ->     fname varchar(15),
+    ->     area varchar(2),
+    -> sjci;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 6
+mysql> CREATE TABLE Cust (
+    ->     cust_id varchar(2) PRIMARY KEY,
+    ->     lname varchar(15),
+    ->     fname varchar(15),
+    ->     area varchar(2),
+    ->     phone_no INT(8)
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> CREATE DATABASE CUSSST
+    -> USE CUSSST
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'USE CUSSST' at line 2
+mysql> CREATE DATABASE custst
+    -> USE custst;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'USE custst' at line 2
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| aishik             |
+| ani                |
+| anwesha            |
+| assignment         |
+| companies          |
+| company            |
+| company1           |
+| dm2                |
+| idea               |
+| information_schema |
+| iron               |
+| kc                 |
+| kk                 |
+| kushal_191         |
+| lab                |
+| manish0            |
+| manish5            |
+| mysql              |
+| performance_schema |
+| raktim             |
+| rand               |
+| sahil              |
+| sananda            |
+| sayan              |
+| shaheumam          |
+| souvik             |
+| supriyo_db         |
+| suv                |
+| suvasree           |
+| suvo               |
+| sys                |
+| zahid              |
++--------------------+
+32 rows in set (0.05 sec)
+
+mysql> USE DATABASE kushal_191;
+ERROR 1049 (42000): Unknown database 'database'
+mysql> USE kushal_191
+Database changed
+mysql> CREATE TABLE Cust (
+    ->     cust_id varchar(2) PRIMARY KEY,
+    ->     lname varchar(15),
+    ->     fname varchar(15),
+    ->     area varchar(2),
+    ->     phone_no INT(8)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+
+mysql> CREATE TABLE Movie (
+    -> mv_no varchar(3) PRIMARY KEY,
+    -> title varchar(2),
+    -> type varchar(l;ssxxs
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'l' at line 4
+    -> CREATE TABLE Movie (
+    -> mv_no varchar(2),
+    -> title varchar(25),
+    -> type varchar(10),
+    -> star varchar(25),kndjvndsjvnsd
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ssxxs
+CREATE TABLE Movie (
+mv_no varchar(2),
+title varchar(25),
+type varchar(10)' at line 1
+mysql>  CREATE TABLE Movie (
+    -> mv_no varchar(2) PRIMARY KEY,
+    -> title varchar(25),
+    -> type varchar(10),
+    -> star varchar(25)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Invoice
+    -> Inv_no varchar(3) PRIMARY KEY,
+    -> MV_no varchar(2),
+    -> Cust_id varchar(3),
+    -> Issue_date DATE,
+    -> Return_date DATE,
+    -> FOREIGN KEY (mv_no) REFERENCES Movie(mv_no),
+    ->  FOREIGN KEY (cust_id) REFERENCES Cust(cust_id)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Inv_no varchar(3) PRIMARY KEY,
+MV_no varchar(2),
+Cust_id varchar(3),
+Issue_date ' at line 2
+mysql> CREATE TABLE Invoice (
+    ->     inv_no varchar(3) PRIMARY KEY,
+    ->     mv_no varchar(2),
+    ->     cust_id varchar(2),
+    ->     issue_date DATE,
+    ->     return_date DATE,
+    ->     FOREIGN KEY (mv_no) REFERENCES Movie(mv_no),
+    ->     FOREIGN KEY (cust_id) REFERENCES Cust(cust_id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> ALTER TABLE Invoice ADD FOREIGN KEY (cust_id) REFERENCES Cust(cust_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Invoice ADD FOREIGN KEY (mv_no) REFERENCES Movie(mv_no);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Movie MODIFY fname varchar(15) NOT NULL;
+ERROR 1054 (42S22): Unknown column 'fname' in 'movie'
+mysql>
+mysql> ALTER TABLE Movie MODIFY title varchar(25) NOT NULL;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Movie MODIFY type varchar(10) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Movie MODIFY title varchar(25) NOT NULL;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Movie MODIFY type varchar(10) NOT NULL;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Movie MODIFY star varchar(25) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Invoice ADD FOREIGN KEY (cust_id) REFERENCES Cust(cust_id);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> ALTER TABLE Invoice ADD FOREIGN KEY (mv_no) REFERENCES Movie(mv_no);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Cust MODIFY fname varchar(15) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Movie ADD COLUMN price decimal(8,2);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Cust VALUES('a01','Bayross','Ivan','sa',6125467);
+ERROR 1406 (22001): Data too long for column 'cust_id' at row 1
+mysql> INSERT INTO Cust VALUES ('a01', 'Bayross', 'Ivan', 'sa', 6125467);
+ERROR 1406 (22001): Data too long for column 'cust_id' at row 1
+mysql> ^C
+mysql> ALTER TABLE Cust MODIFY cust_id varchar(3) PRIMARY KEY;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE Cust MODIFY cust_id varchar(3);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Cust VALUES ('a01', 'Bayross', 'Ivan', 'sa', 6125467);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Cust VALUES ('a02', 'Saitwal', 'Vandana', 'ma', 7605039);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Cust VALUES ('a03', 'Jaguste', 'Pramada', 'ba', 8214567);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Cust VALUES ('a04', 'Navindgi', 'Basu', 'ba', 6125401);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Cust VALUES ('a05', 'Sreedharan', 'Ravi', 'va');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql>  INSERT INTO Cust VALUES ('a05', 'Sreedharan', 'Ravi', 'va',' ');
+ERROR 1366 (HY000): Incorrect integer value: ' ' for column 'phone_no' at row 1
+mysql>  INSERT INTO Cust VALUES ('a05', 'Sreedharan', 'Ravi', 'va', );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> INSERT INTO Cust VALUES ('a05', 'Sreedharan', 'Ravi', 'va',NULL);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Cust VALUES ('a05', NULL, 'Rukmini', 'gh', 5125274);
+ERROR 1062 (23000): Duplicate entry 'a05' for key 'cust.PRIMARY'
+mysql> INSERT INTO Cust VALUES ('a06', NULL, 'Rukmini', 'gh', 5125274);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO Movie VALUES (1, 'bloody vengeance', 'action', 'jackie chan', 180.
+95);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (2, 'the firm', 'thriller', 'tom cruise', 200.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (3, 'pretty woman', 'romance', 'richard gere', 150.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (4, 'home alone', 'comedy', 'macaulay culkin', 150.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (5, 'the fugitive', 'thriller', 'harisson ford', 200.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (6, 'coma', 'suspense', 'michael douglas', 100.00);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Movie VALUES (7, 'dracula', 'horror', 'gary oldman', 150.25);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (8, 'quick change', 'comedy', 'bill murray', 100.00);
+\
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Movie VALUES (9, 'gone with the wind', 'drama', 'clark gable', 200.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Movie VALUES (10, 'carry on doctor', 'comedy', 'leslie phillips', 100.00);
+Query O
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> INSERT INTO Invoice VALUES ('i01', 4, 'a01', '23-jul-93', '25-jul-93');
+ERROR 1406 (22001): Data too long for column 'cust_id' at row 1
+mysql> ALTER TABLE Cust MODIFY cust_id varchar(3);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  INSERT INTO Invoice VALUES ('i01', 4, 'a01', '23-jul-93', '25-jul-93');
+ERROR 1406 (22001): Data too long for column 'cust_id' at row 1
+mysql> DESCRIBE Cust;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cust_id  | varchar(3)  | NO   | PRI | NULL    |       |
+| lname    | varchar(15) | YES  |     | NULL    |       |
+| fname    | varchar(15) | NO   |     | NULL    |       |
+| area     | varchar(2)  | YES  |     | NULL    |       |
+| phone_no | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> ALTER TABLE Movie MODIFY mv_no varchar(3);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Invoice MODIFY inv_no varchar(3);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Invoice MODIFY mv_no varchar(3);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Invoice MODIFY cust_id varchar(3);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  INSERT INTO Invoice VALUES ('i01', 4, 'a01', '23-jul-93', '25-jul-93');
+ERROR 1292 (22007): Incorrect date value: '23-jul-93' for column 'issue_date' at row 1
+mysql>  INSERT INTO Invoice VALUES ('i01', 4, 'a01', '1993-07-23', '1993-07-25');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i02', 1, 'a02', '1993-08-15', '1993-08-18');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i03', 1, 'a02', '1993-08-15', '1993-08-18');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO Invoice VALUES ('i04', 6, 'a03', '1993-09-10', '1993-09-12');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i05', 2, 'a04', '1993-08-05', '1993-08-08');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i06', 2, 'a06', '1993-09-18', '1993-09-21');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Invoice
+    -> ;sd
++--------+-------+---------+------------+-------------+
+| inv_no | mv_no | cust_id | issue_date | return_date |
++--------+-------+---------+------------+-------------+
+| i01    | 4     | a01     | 1993-07-23 | 1993-07-25  |
+| i02    | 1     | a02     | 1993-08-15 | 1993-08-18  |
+| i03    | 1     | a02     | 1993-08-15 | 1993-08-18  |
+| i04    | 6     | a03     | 1993-09-10 | 1993-09-12  |
+| i05    | 2     | a04     | 1993-08-05 | 1993-08-08  |
+| i06    | 2     | a06     | 1993-09-18 | 1993-09-21  |
++--------+-------+---------+------------+-------------+
+6 rows in set (0.00 sec)
+
+    ->
+
+ INSERT INTO Invoice VALUES ('i07', 9, 'a05', '1993-07-07', '1993-07-10');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sd
+INSERT INTO Invoice VALUES ('i07', 9, 'a05', '1993-07-07', '1993-07-10')' at line 1
+mysql>  INSERT INTO Invoice VALUES ('i07', 9, 'a05', '1993-07-07', '1993-07-10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i08', 9, 'a01', '1993-08-11', '1993-08-14');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i09', 5, 'a05', '1993-07-06', '1993-07-07');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Invoice VALUES ('i10', 8, 'a06', '1993-09-03', '1993-09-06');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Cust
+    -> ;
++---------+------------+---------+------+----------+
+| cust_id | lname      | fname   | area | phone_no |
++---------+------------+---------+------+----------+
+| a01     | Bayross    | Ivan    | sa   |  6125467 |
+| a02     | Saitwal    | Vandana | ma   |  7605039 |
+| a03     | Jaguste    | Pramada | ba   |  8214567 |
+| a04     | Navindgi   | Basu    | ba   |  6125401 |
+| a05     | Sreedharan | Ravi    | va   |     NULL |
+| a06     | NULL       | Rukmini | gh   |  5125274 |
++---------+------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Movie
+    -> ;
++-------+--------------------+----------+-----------------+--------+
+| mv_no | title              | type     | star            | price  |
++-------+--------------------+----------+-----------------+--------+
+| 1     | bloody vengeance   | action   | jackie chan     | 180.95 |
+| 10    | carry on doctor    | comedy   | leslie phillips | 100.00 |
+| 2     | the firm           | thriller | tom cruise      | 200.00 |
+| 3     | pretty woman       | romance  | richard gere    | 150.00 |
+| 4     | home alone         | comedy   | macaulay culkin | 150.00 |
+| 5     | the fugitive       | thriller | harisson ford   | 200.00 |
+| 6     | coma               | suspense | michael douglas | 100.00 |
+| 7     | dracula            | horror   | gary oldman     | 150.25 |
+| 8     | quick change       | comedy   | bill murray     | 100.00 |
+| 9     | gone with the wind | drama    | clark gable     | 200.00 |
++-------+--------------------+----------+-----------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Invoice
+    -> ;
++--------+-------+---------+------------+-------------+
+| inv_no | mv_no | cust_id | issue_date | return_date |
++--------+-------+---------+------------+-------------+
+| i01    | 4     | a01     | 1993-07-23 | 1993-07-25  |
+| i02    | 1     | a02     | 1993-08-15 | 1993-08-18  |
+| i03    | 1     | a02     | 1993-08-15 | 1993-08-18  |
+| i04    | 6     | a03     | 1993-09-10 | 1993-09-12  |
+| i05    | 2     | a04     | 1993-08-05 | 1993-08-08  |
+| i06    | 2     | a06     | 1993-09-18 | 1993-09-21  |
+| i07    | 9     | a05     | 1993-07-07 | 1993-07-10  |
+| i08    | 9     | a01     | 1993-08-11 | 1993-08-14  |
+| i09    | 5     | a05     | 1993-07-06 | 1993-07-07  |
+| i10    | 8     | a06     | 1993-09-03 | 1993-09-06  |
++--------+-------+---------+------------+-------------+
+10 rows in set (0.00 sec)
+
+mysql>
