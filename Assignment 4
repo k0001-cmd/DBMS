@@ -1,0 +1,71 @@
+Names of all the customers (fname, lname)
+sql
+
+
+SELECT fname, lname
+FROM Cust;
+Print the entire customer table
+sql
+
+
+SELECT *
+FROM Cust;
+Retrieve fname and area of all customers
+sql
+
+
+SELECT fname, area
+FROM Cust;
+List the various movie types available
+sql
+
+
+SELECT DISTINCT type
+FROM Movie;
+Print invoice table info in the required format
+sql
+
+
+SELECT
+  CONCAT('The Invoice No. of Customer Id. ', i.cust_id,
+         ' is ', i.inv_no,
+         ' and Movie No. is ', i.mv_no, '.') AS A,
+  CONCAT(i.cust_id,
+         ' has taken Movie No. ', i.mv_no,
+         ' on ', i.issue_date,
+         ' and will return on ',
+         i.return_date, '.') AS B
+FROM Invoice i;
+Change telephone number of ‘Prarnada’ to 466389
+sql
+
+
+UPDATE Cust
+SET phone_no = 466389
+WHERE fname = 'Pramada';
+Change issue-date of cust_id = 'A01' to 24/07/93
+sql
+
+
+UPDATE Invoice
+SET issue_date = '1993-07-24'
+WHERE cust_id = 'a01';
+Change price of ‘gone with the wind’ to Rs. 250.00
+sql
+
+
+UPDATE Movie
+SET price = 250.00
+WHERE title = 'gone with the wind';
+Delete the record with invoice number ‘i08’
+sql
+
+
+DELETE FROM Invoice
+WHERE inv_no = 'i08';
+Delete all records having return date before 10th July ’93
+sql
+
+
+DELETE FROM Invoice
+WHERE return_date < '1993-07-10';
