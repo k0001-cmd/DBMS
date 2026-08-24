@@ -76,7 +76,10 @@ FROM movie
 WHERE type IN ('action', 'comedy');
 
 
-
+function
+meaning
+explaination using data
+code
 
 
 s% or j% 
