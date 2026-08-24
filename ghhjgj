@@ -1,0 +1,64 @@
+11)mysql> SELECT lname
+    -> FROM cust
+    -> WHERE lname LIKE 's%'
+    ->    OR lname LIKE 'j%';
++------------+
+| lname      |
++------------+
+| Saitwal    |
+| Jaguste    |
+| Sreedharan |
++------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM cust
+    -> WHERE area LIKE 'd%'
+    -> OR area LIKE '%gh';
++---------+---------+---------+------+----------+
+| cust_id | lname   | fname   | area | phone_no |
++---------+---------+---------+------+----------+
+| a03     | Jaguste | Pramada | da   |   466389 |
+| a06     | NULL    | Rukmini | gh   |  5125274 |
++---------+---------+---------+------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM cust
+    -> ;
++---------+------------+---------+------+----------+
+| cust_id | lname      | fname   | area | phone_no |
++---------+------------+---------+------+----------+
+| a01     | Bayross    | Ivan    | sa   |  6125467 |
+| a02     | Saitwal    | Vandana | mu   |  5560379 |
+| a03     | Jaguste    | Pramada | da   |   466389 |
+| a04     | Navindgi   | Basu    | ba   |  6125401 |
+| a05     | Sreedharan | Ravi    | vs   |     NULL |
+| a06     | NULL       | Rukmini | gh   |  5125274 |
++---------+------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> ;
+ERROR 1146 (42S02): Table 'kushal_191.employee' doesn't exist
+mysql> SELECT * FROM cust
+    -> WHERE phone_no > 5550000;
++---------+----------+---------+------+----------+
+| cust_id | lname    | fname   | area | phone_no |
++---------+----------+---------+------+----------+
+| a01     | Bayross  | Ivan    | sa   |  6125467 |
+| a02     | Saitwal  | Vandana | mu   |  5560379 |
+| a04     | Navindgi | Basu    | ba   |  6125401 |
++---------+----------+---------+------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Invoice
+    -> WHERE MONTH(Invoice.issue_date) = 9;
++--------+-------+---------+------------+-------------+
+| inv_no | mv_no | cust_id | issue_date | return_date |
++--------+-------+---------+------------+-------------+
+| i04    | 6     | a03     | 1993-09-10 | 1993-09-12  |
+| i06    | 2     | a06     | 1993-09-18 | 1993-09-21  |
+| i10    | 8     | a06     | 1993-09-03 | 1993-09-06  |
++--------+-------+---------+------------+-------------+
+3 rows in set (0.00 sec)
