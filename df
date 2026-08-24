@@ -1,0 +1,80 @@
+-- 11. Change the area of customer A05 to 'vs'
+UPDATE customer
+SET area = 'vs'
+WHERE cust_id = 'A05';w
+
+
+-- 12. Change the return date of invoice number 103
+UPDATE invoice
+SET return_date = '16-08-93'
+WHERE invoice_no = 103;
+
+
+-- 13. Customers whose second name letter is 'a'
+SELECT *
+FROM customer
+WHERE cust_name LIKE '_a%';
+
+
+-- 14. Customers whose names begin with 's' or 'j'
+SELECT *
+FROM customer
+WHERE cust_name LIKE 's%'
+   OR cust_name LIKE 'j%';
+
+
+-- 15. Customers staying in an area whose second letter is 'a'
+SELECT *
+FROM customer
+WHERE area LIKE '_a%';
+
+
+
+
+FUNVCTIONS
+
+-->MONTH
+-->YEAR
+-->Date Difference
+--> NOW
+-->Current Date
+--> Current time
+--> Date
+--> Date ADD/SUB
+-- 16. Customers staying in areas beginning with 'd' or ending with 'gh'
+SELECT *
+FROM customer
+WHERE area LIKE 'd%'
+   OR area LIKE '%gh';
+
+
+-- 17. Employees whose phone numbers are greater than 5550000
+SELECT *
+FROM employee
+WHERE phone_no > 5550000;
+
+
+-- 18. Invoice information for customers issued movies in September
+SELECT i.*
+FROM invoice i
+WHERE MONTH(i.issue_date) = 9;
+
+
+-- 19. Display invoice information for customers A01 and A02
+SELECT *
+FROM invoice
+WHERE cust_id IN ('A01', 'A02');
+
+
+-- 20. Movies of type 'action' and 'comedy'
+SELECT *
+FROM movie
+WHERE type IN ('action', 'comedy');
+
+
+
+
+
+s% or j% 
+'s% or j%' -->becomes string
+'s%' or 'j%'
