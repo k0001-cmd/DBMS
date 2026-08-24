@@ -41,6 +41,10 @@ FUNVCTIONS
 --> Current time
 --> Date
 --> Date ADD/SUB
+--> Extract
+
+
+
 -- 16. Customers staying in areas beginning with 'd' or ending with 'gh'
 SELECT *
 FROM customer
