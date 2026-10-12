@@ -1,0 +1,549 @@
+1) SELECT i.mv_no
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> WHERE LOWER(c.fname) = 'ivan';
++-------+
+| mv_no |
++-------+
+| 4     |
++-------+
+
+SELECT mv_no
+    -> FROM Invoice
+    -> WHERE cust_id IN (
+    ->     SELECT cust_id
+    ->     FROM Cust
+    ->     WHERE LOWER(fname) = 'ivan'
+    -> );
++-------+
+| mv_no |
++-------+
+| 4     |
++-------+
+
+2)  SELECT c.fname, c.lname, i.mv_no
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id;
++---------+------------+-------+
+| fname   | lname      | mv_no |
++---------+------------+-------+
+| Ivan    | Bayross    | 4     |
+| Vandana | Saitwal    | 1     |
+| Vandana | Saitwal    | 1     |
+| Pramada | Jaguste    | 6     |
+| Basu    | Navindgi   | 2     |
+| Ravi    | Sreedharan | 9     |
+| Rukmini | NULL       | 2     |
+| Rukmini | NULL       | 8     |
++---------+------------+-------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT c.fname, c.lname, i.mv_no
+    -> FROM Cust c,
+    ->      (SELECT cust_id, mv_no FROM Invoice) i
+    -> WHERE i.cust_id = c.cust_id;
++---------+------------+-------+
+| fname   | lname      | mv_no |
++---------+------------+-------+
+| Ivan    | Bayross    | 4     |
+| Vandana | Saitwal    | 1     |
+| Vandana | Saitwal    | 1     |
+| Pramada | Jaguste    | 6     |
+| Basu    | Navindgi   | 2     |
+| Ravi    | Sreedharan | 9     |
+| Rukmini | NULL       | 2     |
+| Rukmini | NULL       | 8     |
++---------+------------+-------+
+8 rows in set (0.00 sec)
+
+
+3) JOIN 
+ SELECT m.title, i.cust_id, i.mv_no
+    -> FROM Invoice i
+    -> JOIN Movie m ON m.mv_no = i.mv_no;
++--------------------+---------+-------+
+| title              | cust_id | mv_no |
++--------------------+---------+-------+
+| home alone         | a01     | 4     |
+| bloody vengeance   | a02     | 1     |
+| bloody vengeance   | a02     | 1     |
+| coma               | a03     | 6     |
+| the firm           | a04     | 2     |
+| the firm           | a06     | 2     |
+| gone with the wind | a05     | 9     |
+| quick change       | a06     | 8     |
++--------------------+---------+-------+
+8 rows in set (0.00 sec)
+
+subquery 
+
+ SELECT m.title, issued.cust_id, issued.mv_no
+    -> FROM (
+    ->     SELECT i.cust_id, i.mv_no
+    ->     FROM Invoice i
+    ->     WHERE EXISTS (
+    ->         SELECT 1
+    ->         FROM Movie m2
+    ->         WHERE m2.mv_no = i.mv_no
+    ->     )
+    -> ) AS issued
+    -> JOIN Movie m ON m.mv_no = issued.mv_no;
++--------------------+---------+-------+
+| title              | cust_id | mv_no |
++--------------------+---------+-------+
+| home alone         | a01     | 4     |
+| bloody vengeance   | a02     | 1     |
+| bloody vengeance   | a02     | 1     |
+| coma               | a03     | 6     |
+| the firm           | a04     | 2     |
+| the firm           | a06     | 2     |
+| gone with the wind | a05     | 9     |
+| quick change       | a06     | 8     |
++--------------------+---------+-------+
+8 rows in set (0.00 sec)
+
+
+
+
+
+4)JOIN 
+ SELECT m.title, m.type
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE LOWER(c.fname) = 'vandana';
++------------------+--------+
+| title            | type   |
++------------------+--------+
+| bloody vengeance | action |
+| bloody vengeance | action |
++------------------+--------+
+2 rows in set (0.00 sec)
+
+subquery
+
+ SELECT title, type
+    -> FROM Movie
+    -> WHERE mv_no IN (
+    ->     SELECT mv_no
+    ->     FROM Invoice
+    ->     WHERE cust_id IN (
+    ->         SELECT cust_id
+    ->         FROM Cust
+    ->         WHERE LOWER(fname) = 'vandana'
+    ->     )
+    -> );
++------------------+--------+
+| title            | type   |
++------------------+--------+
+| bloody vengeance | action |
++------------------+--------+
+1 row in set (0.03 sec)
+
+
+
+5) 
+mysql> -- JOIN
+mysql> SELECT DISTINCT c.fname, c.lname
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE LOWER(m.type) = 'drama';
++-------+------------+
+| fname | lname      |
++-------+------------+
+| Ravi  | Sreedharan |
++-------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT fname, lname
+    -> FROM Cust c
+    -> WHERE EXISTS (
+    ->     SELECT 1
+    ->     FROM Invoice i
+    ->     WHERE i.cust_id = c.cust_id
+    ->       AND i.mv_no IN (
+    ->           SELECT mv_no
+    ->           FROM Movie
+    ->           WHERE LOWER(type) = 'drama'
+    ->       )
+    -> );
++-------+------------+
+| fname | lname      |
++-------+------------+
+| Ravi  | Sreedharan |
++-------+------------+
+1 row in set (0.00 sec)
+
+6)  JOIN
+mysql> SELECT CONCAT('The movie taken by ', c.fname, ' ', c.lname,
+    ->               ' is ', m.title, '.') AS message
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE CAST(m.mv_no AS UNSIGNED) >= 3;
++-----------------------------------------------------------+
+| message
+      |
++-----------------------------------------------------------+
+| The movie taken by Ivan Bayross is home alone.            |
+| The movie taken by Pramada Jaguste is coma.
+      |
+| The movie taken by Ravi Sreedharan is gone with the wind. |
+| NULL
+      |
++-----------------------------------------------------------+
+4 rows in set (0.03 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT CONCAT('The movie taken by ', c.fname, ' ', c.lname,
+    ->               ' is ', m.title, '.') AS message
+    -> FROM Cust c
+    -> JOIN Movie m
+    ->   ON m.mv_no = (
+    ->       SELECT i.mv_no
+    ->       FROM Invoice i
+    ->       WHERE i.cust_id = c.cust_id
+    ->         AND CAST(i.mv_no AS UNSIGNED) >= 3
+    ->       LIMIT 1
+    ->   )
+    -> WHERE EXISTS (
+    ->     SELECT 1
+    ->     FROM Invoice i
+    ->     WHERE i.cust_id = c.cust_id
+    ->       AND CAST(i.mv_no AS UNSIGNED) >= 3
+    -> );
++-----------------------------------------------------------+
+| message
+      |
++-----------------------------------------------------------+
+| The movie taken by Ivan Bayross is home alone.            |
+| The movie taken by Pramada Jaguste is coma.
+      |
+| The movie taken by Ravi Sreedharan is gone with the wind. |
+| NULL
+      |
++-----------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+7)  -- JOIN
+mysql> SELECT DISTINCT c.fname, c.lname
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> WHERE i.mv_no = '9';
++-------+------------+
+| fname | lname      |
++-------+------------+
+| Ravi  | Sreedharan |
++-------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT fname, lname
+    -> FROM Cust
+    -> WHERE cust_id IN (
+    ->     SELECT cust_id
+    ->     FROM Invoice
+    ->     WHERE mv_no = '9'
+    -> );
++-------+------------+
+| fname | lname      |
++-------+------------+
+| Ravi  | Sreedharan |
++-------+------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+8)-- JOIN
+mysql> SELECT c.fname, c.lname, c.area
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> WHERE i.inv_no = 'i10';
++---------+-------+------+
+| fname   | lname | area |
++---------+-------+------+
+| Rukmini | NULL  | gh   |
++---------+-------+------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT fname, lname, area
+    -> FROM Cust
+    -> WHERE cust_id IN (
+    ->     SELECT cust_id
+    ->     FROM Invoice
+    ->     WHERE inv_no = 'i10'
+    -> );
++---------+-------+------+
+| fname   | lname | area |
++---------+-------+------+
+| Rukmini | NULL  | gh   |
++---------+-------+------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+
+9)  -- JOIN
+mysql> SELECT DISTINCT c.fname, c.lname, c.phone_no
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> WHERE MONTH(i.issue_date) < 8;
++-------+------------+----------+
+| fname | lname      | phone_no |
++-------+------------+----------+
+| Ivan  | Bayross    |  6125467 |
+| Ravi  | Sreedharan |     NULL |
++-------+------------+----------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT fname, lname, phone_no
+    -> FROM Cust c
+    -> WHERE EXISTS (
+    ->     SELECT 1
+    ->     FROM Invoice i
+    ->     WHERE i.cust_id = c.cust_id
+    ->       AND MONTH(i.issue_date) < 8
+    -> );
++-------+------------+----------+
+| fname | lname      | phone_no |
++-------+------------+----------+
+| Ivan  | Bayross    |  6125467 |
+| Ravi  | Sreedharan |     NULL |
++-------+------------+----------+
+2 rows in set (0.00 sec)
+
+
+
+
+10) -- JOIN
+mysql> SELECT DISTINCT m.title
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE LOWER(c.fname) IN ('vandana', 'ivan');
++------------------+
+| title            |
++------------------+
+| home alone       |
+| bloody vengeance |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT title
+    -> FROM Movie
+    -> WHERE mv_no IN (
+    ->     SELECT mv_no
+    ->     FROM Invoice
+    ->     WHERE cust_id IN (
+    ->         SELECT cust_id
+    ->         FROM Cust
+    ->         WHERE LOWER(fname) IN ('vandana', 'ivan')
+    ->     )
+    -> );
++------------------+
+| title            |
++------------------+
+| bloody vengeance |
+| home alone       |
++------------------+
+2 rows in set (0.00 sec)
+
+11) - JOIN
+mysql> SELECT m.mv_no, m.title
+    -> FROM Invoice i
+    -> JOIN Movie m ON m.mv_no = i.mv_no;
++-------+--------------------+
+| mv_no | title              |
++-------+--------------------+
+| 1     | bloody vengeance   |
+| 1     | bloody vengeance   |
+| 2     | the firm           |
+| 2     | the firm           |
+| 4     | home alone         |
+| 6     | coma               |
+| 8     | quick change       |
+| 9     | gone with the wind |
++-------+--------------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT mv_no, title
+    -> FROM Movie
+    -> WHERE mv_no IN (
+    ->     SELECT mv_no
+    ->     FROM Invoice
+    -> );
++-------+--------------------+
+| mv_no | title              |
++-------+--------------------+
+| 1     | bloody vengeance   |
+| 2     | the firm           |
+| 4     | home alone         |
+| 6     | coma               |
+| 8     | quick change       |
+| 9     | gone with the wind |
++-------+--------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+12)  -- JOIN
+mysql> SELECT m.type, m.mv_no
+    -> FROM Invoice i
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE i.cust_id IN ('a01', 'a02');
++--------+-------+
+| type   | mv_no |
++--------+-------+
+| comedy | 4     |
+| action | 1     |
+| action | 1     |
++--------+-------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT type, mv_no
+    -> FROM Movie
+    -> WHERE mv_no IN (
+    ->     SELECT mv_no
+    ->     FROM Invoice
+    ->     WHERE cust_id IN ('a01', 'a02')
+    -> );
++--------+-------+
+| type   | mv_no |
++--------+-------+
+| comedy | 4     |
+| action | 1     |
++--------+-------+
+2 rows in set (0.00 sec)
+
+
+13)  -- JOIN
+mysql> SELECT DISTINCT i.cust_id
+    -> FROM Invoice i
+    -> JOIN Movie m ON m.mv_no = i.mv_no
+    -> WHERE LOWER(m.star) = 'tom cruise';
++---------+
+| cust_id |
++---------+
+| a04     |
+| a06     |
++---------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT DISTINCT cust_id
+    -> FROM Invoice
+    -> WHERE mv_no IN (
+    ->     SELECT mv_no
+    ->     FROM Movie
+    ->     WHERE LOWER(star) = 'tom cruise'
+    -> );
++---------+
+| cust_id |
++---------+
+| a04     |
+| a06     |
++---------+
+2 rows in set (0.00 sec)
+
+
+
+
+14)  -- JOIN
+mysql> SELECT DISTINCT c.lname, c.fname
+    -> FROM Cust c
+    -> JOIN Invoice i ON i.cust_id = c.cust_id;
++------------+---------+
+| lname      | fname   |
++------------+---------+
+| Bayross    | Ivan    |
+| Saitwal    | Vandana |
+| Jaguste    | Pramada |
+| Navindgi   | Basu    |
+| Sreedharan | Ravi    |
+| NULL       | Rukmini |
++------------+---------+
+6 rows in set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT lname, fname
+    -> FROM Cust c
+    -> WHERE EXISTS (
+    ->     SELECT 1
+    ->     FROM Invoice i
+    ->     WHERE i.cust_id = c.cust_id
+    -> );
++------------+---------+
+| lname      | fname   |
++------------+---------+
+| Bayross    | Ivan    |
+| Saitwal    | Vandana |
+| Jaguste    | Pramada |
+| Navindgi   | Basu    |
+| Sreedharan | Ravi    |
+| NULL       | Rukmini |
++------------+---------+
+6 rows in set (0.00 sec)
+
+
+
+
+15)  -- JOIN
+mysql> SELECT c.fname, c.lname
+    -> FROM Cust c
+    -> LEFT JOIN Invoice i ON i.cust_id = c.cust_id
+    -> WHERE i.cust_id IS NULL;
+Empty set (0.00 sec)
+
+mysql>
+mysql> -- Subquery
+mysql> SELECT fname, lname
+    -> FROM Cust c
+    -> WHERE NOT EXISTS (
+    ->     SELECT 1
+    ->     FROM Invoice i
+    ->     WHERE i.cust_id = c.cust_id
+    -> );
+Empty set (0.00 sec)
