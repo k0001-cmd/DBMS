@@ -1,0 +1,122 @@
+-- 1. First names of customers who issued exactly one movie
+SELECT c.fname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+GROUP BY c.cust_id, c.fname
+HAVING COUNT(DISTINCT i.mv_no) = 1;
+
+
+-- 2. First and last names of customers who issued exactly one movie
+SELECT c.fname, c.lname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+GROUP BY c.cust_id, c.fname, c.lname
+HAVING COUNT(DISTINCT i.mv_no) = 1;
+
+
+-- 3. Total price of movies issued by each customer
+SELECT c.cust_id, c.fname, c.lname, SUM(m.price) AS total_price
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+JOIN movie AS m ON m.mv_no = i.mv_no
+GROUP BY c.cust_id, c.fname, c.lname;
+
+
+-- 4. First and last names of customers who issued more than one movie
+SELECT c.fname, c.lname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+GROUP BY c.cust_id, c.fname, c.lname
+HAVING COUNT(DISTINCT i.mv_no) > 1;
+
+
+-- 5. First names of customers who issued more than one movie
+SELECT c.fname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+GROUP BY c.cust_id, c.fname
+HAVING COUNT(DISTINCT i.mv_no) > 1;
+
+
+-- 6. Lowest-priced comedy movie(s)
+SELECT title, price
+FROM movie
+WHERE type = 'comedy'
+  AND price = (
+      SELECT MIN(price)
+      FROM movie
+      WHERE type = 'comedy'
+  );
+
+
+-- 7. Customers who issued Gone with the Wind or Home Alone (or both)
+SELECT DISTINCT c.fname, c.lname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+JOIN movie AS m ON m.mv_no = i.mv_no
+WHERE m.title IN ('Gone with the Wind', 'Home Alone');
+
+
+-- 8. Customers who issued both Gone with the Wind and Home Alone
+SELECT c.fname, c.lname
+FROM cust AS c
+JOIN invoice AS i ON i.cust_id = c.cust_id
+JOIN movie AS m ON m.mv_no = i.mv_no
+WHERE m.title IN ('Gone with the Wind', 'Home Alone')
+GROUP BY c.cust_id, c.fname, c.lname
+HAVING COUNT(DISTINCT m.title) = 2;
+
+
+-- 9. Customers who issued Gone with the Wind but not Home Alone
+SELECT c.fname, c.lname
+FROM cust AS c
+WHERE EXISTS (
+    SELECT 1
+    FROM invoice AS i
+    JOIN movie AS m ON m.mv_no = i.mv_no
+    WHERE i.cust_id = c.cust_id
+      AND m.title = 'Gone with the Wind'
+)
+AND NOT EXISTS (
+    SELECT 1
+    FROM invoice AS i
+    JOIN movie AS m ON m.mv_no = i.mv_no
+    WHERE i.cust_id = c.cust_id
+      AND m.title = 'Home Alone'
+);
+
+
+-- 10. Create a view of comedy movies with their titles and prices
+CREATE VIEW comedy_movies AS
+SELECT title, price
+FROM movie
+WHERE type = 'comedy';
+
+
+-- 11. Show comedy movie titles using the view
+SELECT title
+FROM comedy_movies;
+
+
+-- 12. Create a view of comedy movie titles and prices
+CREATE VIEW comedy_movie_prices AS
+SELECT title, price
+FROM movie
+WHERE type = 'comedy';
+
+
+-- 13. Show comedy movie titles and prices using the view
+SELECT title, price
+FROM comedy_movie_prices;
+
+
+-- 14. Create a view showing the total price for each movie type
+CREATE VIEW movie_type_totals AS
+SELECT type, SUM(price) AS total_price
+FROM movie
+GROUP BY type;
+
+
+-- 15. Show the total price for each movie type using the view
+SELECT type, total_price
+FROM movie_type_totals;
